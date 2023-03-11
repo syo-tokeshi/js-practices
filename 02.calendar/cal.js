@@ -21,10 +21,10 @@ for (
   date <= endDate;
   date.setDate(date.getDate() + 1)
 ) {
-  const formatted_day = String(date.getDate()).padStart(RIGHT_JUSTIFIED_LENGTH);
+  const formattedDay = String(date.getDate()).padStart(RIGHT_JUSTIFIED_LENGTH);
   if (date.getDay() === SATURDAY) {
-    console.log(formatted_day);
+    console.log(formattedDay);
   } else {
-    process.stdout.write(`${formatted_day} `);
+    process.stdout.write(`${formattedDay} `);
   }
 }
