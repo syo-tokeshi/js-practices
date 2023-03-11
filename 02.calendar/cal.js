@@ -7,20 +7,21 @@ const startDate = new Date(year, month - valueForCorrection);
 const endDate = new Date(year, month, 0);
 const defaultSpace = "   ";
 const rightJustifiedValue = 2;
+const saturday = 6;
 
 console.log(`     ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
 const firstWeeksSpace = defaultSpace.repeat(startDate.getDay());
 process.stdout.write(firstWeeksSpace);
 for (
-  startDate;
-  startDate <= endDate;
-  startDate.setDate(startDate.getDate() + 1)
+  const date = startDate;
+  date <= endDate;
+  date.setDate(date.getDate() + 1)
 ) {
-  let day = String(startDate.getDate()).padStart(rightJustifiedValue);
-  if (startDate.getDay() == 6) {
-    console.log(day);
+  const formatted_day = String(date.getDate()).padStart(rightJustifiedValue);
+  if (date.getDay() === saturday) {
+    console.log(formatted_day);
   } else {
-    process.stdout.write(`${day} `);
+    process.stdout.write(`${formatted_day} `);
   }
 }
