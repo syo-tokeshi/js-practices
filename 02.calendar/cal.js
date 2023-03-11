@@ -1,11 +1,13 @@
 const args = require("minimist")(process.argv.slice(2));
+
 const today = new Date();
-const month = args.m || today.getMonth() + 1;
+const monthCorrectlyGetForValue = 1;
+const month = args.m || today.getMonth() + monthCorrectlyGetForValue;
 const year = args.y || today.getFullYear();
-const valueForGetMonthStart = 1;
-const valueForGetMonthEnd = 0;
-const startDate = new Date(year, month - valueForGetMonthStart);
-const endDate = new Date(year, month, valueForGetMonthEnd);
+const startDate = new Date(year, month - monthCorrectlyGetForValue);
+const getMonthEndForValue = 0;
+const endDate = new Date(year, month, getMonthEndForValue);
+
 const defaultSpace = "   ";
 const rightJustifiedValue = 2;
 const saturday = 6;
