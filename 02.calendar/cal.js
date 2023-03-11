@@ -8,13 +8,13 @@ const startDate = new Date(year, month - VALUE_FOR_GET_MONTH_CORRECTLY);
 const VALUE_FOR_GET_MONTH_END = 0;
 const endDate = new Date(year, month, VALUE_FOR_GET_MONTH_END);
 
-const defaultSpace = "   ";
+const DEFAULT_SPACE = "   ";
 const RIGHT_JUSTIFIED_LENGTH = 2;
 const SATURDAY = 6;
 
 console.log(`     ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
-const firstWeeksSpace = defaultSpace.repeat(startDate.getDay());
+const firstWeeksSpace = DEFAULT_SPACE.repeat(startDate.getDay());
 process.stdout.write(firstWeeksSpace);
 for (
   const date = startDate;
