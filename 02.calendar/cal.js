@@ -12,11 +12,18 @@ console.log(`     ${month}月 ${year}`);
 console.log("日 月 火 水 木 金 土");
 const defaultSpace = defaultSpaceValue.repeat(startDate.getDay());
 process.stdout.write(defaultSpace);
-for (startDate; startDate <= endDate; startDate.setDate(startDate.getDate() + 1)) {
-  let day = String(startDate.getDate()).padStart(rightJustifiedValue, defaultSpaceValue);
+for (
+  startDate;
+  startDate <= endDate;
+  startDate.setDate(startDate.getDate() + 1)
+) {
+  let day = String(startDate.getDate()).padStart(
+    rightJustifiedValue,
+    defaultSpaceValue
+  );
   if (startDate.getDay() == 6) {
     console.log(day);
-  } else{
+  } else {
     process.stdout.write(`${day} `);
   }
 }
