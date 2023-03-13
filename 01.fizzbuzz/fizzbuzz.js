@@ -1,6 +1,6 @@
-function fizz_buzz() {
+function fizzBuzz() {
   for (let num = 1; num <= 20; num++) {
-    if (num === 15) {
+    if (num % 15 === 0) {
       console.log("FizzBuzz");
     } else if (num % 5 === 0) {
       console.log("Buzz");
@@ -12,4 +12,4 @@ function fizz_buzz() {
   }
 }
 
-fizz_buzz();
+fizzBuzz();
