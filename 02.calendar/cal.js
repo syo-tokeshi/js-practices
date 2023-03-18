@@ -1,10 +1,10 @@
 const args = require("minimist")(process.argv.slice(2));
 
 const today = new Date();
-const OFFSET_FOR_GET_MONTH_CORRECTLY = 1;
-const month = args.m || today.getMonth() + OFFSET_FOR_GET_MONTH_CORRECTLY;
+const OFFSET_FOR_HUMAN_READABLE_MONTH = 1;
+const month = args.m || today.getMonth() + OFFSET_FOR_HUMAN_READABLE_MONTH;
 const year = args.y || today.getFullYear();
-const startDate = new Date(year, month - OFFSET_FOR_GET_MONTH_CORRECTLY);
+const startDate = new Date(year, month - OFFSET_FOR_HUMAN_READABLE_MONTH);
 const endDate = new Date(year, month, 0);
 
 const DISPLAYED_DATE_LENGTH = 2;
