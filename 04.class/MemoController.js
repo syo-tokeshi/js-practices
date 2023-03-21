@@ -1,4 +1,5 @@
-#!/usr/bin/env nod
+#!/usr/bin/env node
+
 import { JsonFile } from "./JsonFile.js";
 import readline from "node:readline";
 import enquirer from "enquirer";

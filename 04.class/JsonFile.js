@@ -1,4 +1,5 @@
 import fs from "fs";
+
 export class JsonFile {
   load() {
     const jsonFile = fs.readFileSync("memos.json", "utf8");
