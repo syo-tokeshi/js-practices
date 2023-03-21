@@ -7,15 +7,15 @@ const { Select } = enquirer;
 export class MemoController {
   constructor() {
     this.jsonFile = new JsonFile();
-    this.fileContent = this.jsonFile.load();
+    this.Memos = this.jsonFile.load();
   }
 
   allMemos() {
-    if (this.fileContent.length === 0) {
+    if (this.Memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
     const memoTitles = [];
-    for (const memo of this.fileContent) {
+    for (const memo of this.Memos) {
       memoTitles.push(memo.title);
     }
     console.log("\n[メモ一覧]");
@@ -25,12 +25,12 @@ export class MemoController {
   }
 
   async showMemo() {
-    if (this.fileContent.length === 0) {
+    if (this.Memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
     const prompt = new Select({
       message: "本文を表示したいメモを選んでください😊\n",
-      choices: this.fileContent,
+      choices: this.Memos,
       result() {
         return this.focused.content;
       },
@@ -60,19 +60,22 @@ export class MemoController {
     reader.on("close", () => {
       const title = lines.shift();
       const newMemo = { title: title, content: lines.join("\n") };
-      this.fileContent.push(newMemo);
-      this.jsonFile.write(this.fileContent);
+      this.Memos.push(newMemo);
+      this.jsonFile.write(this.Memos);
       console.log(`メモが新規作成されました😊`);
     });
   }
 
   async deleteMemo() {
-    if (this.fileContent.length === 0) {
+    const Memos = this.Memos;
+    const deepCopyMemos = Memos.map((memo) => ({ ...memo }));
+
+    if (Memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
     const prompt = new Select({
       message: "削除したいメモをお選び下さい😭",
-      choices: this.fileContent,
+      choices: deepCopyMemos,
       result() {
         const deletedMemoIndex = this.index.toString();
         return deletedMemoIndex;
@@ -83,12 +86,11 @@ export class MemoController {
     });
     try {
       const deletedMemoIndex = await prompt.run();
-      const fileContent = this.fileContent;
       console.log(
-        `\n${fileContent[deletedMemoIndex].title}のメモを削除致しました🙇‍`
+        `\n${Memos[deletedMemoIndex].title}のメモを削除致しました🙇‍`
       );
-      fileContent.splice(deletedMemoIndex, 1);
-      this.jsonFile.write(fileContent);
+      Memos.splice(deletedMemoIndex, 1);
+      this.jsonFile.write(Memos);
     } catch (e) {
       console.error(e);
     }
