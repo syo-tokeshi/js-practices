@@ -32,7 +32,7 @@ export class MemoController {
       message: "本文を表示したいメモを選んでください😊\n",
       choices: this.fileContent,
       result() {
-        return this.focused.text;
+        return this.focused.content;
       },
       footer() {
         return "\n十字キーを上下する事で全てのメモから選択できます";
@@ -59,7 +59,7 @@ export class MemoController {
     });
     reader.on("close", () => {
       const title = lines.shift();
-      const newMemo = { title: title, text: lines.join("\n") };
+      const newMemo = { title: title, content: lines.join("\n") };
       this.fileContent.push(newMemo);
       this.jsonFile.write(this.fileContent);
       console.log(`メモが新規作成されました😊`);
