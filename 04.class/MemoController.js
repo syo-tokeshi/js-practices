@@ -85,7 +85,7 @@ export class MemoController {
       const deletedMemoIndex = await prompt.run();
       const fileContent = this.fileContent;
       console.log(
-        `${fileContent[deletedMemoIndex].title}のメモを削除致しました🙇‍`
+        `\n${fileContent[deletedMemoIndex].title}のメモを削除致しました🙇‍`
       );
       fileContent.splice(deletedMemoIndex, 1);
       this.jsonFile.write(fileContent);
