@@ -59,11 +59,15 @@ export class MemoController {
       lines.push(line);
     });
     reader.on("close", () => {
-      const title = lines.shift();
-      const newMemo = { title: title, content: lines.join("\n") };
-      this.Memos.push(newMemo);
-      this.jsonFile.write(this.Memos);
-      console.log(`メモが新規作成されました😊`);
+      if (lines.length !== 0) {
+        const title = lines.shift();
+        const newMemo = { title: title, content: lines.join("\n") };
+        this.Memos.push(newMemo);
+        this.jsonFile.write(this.Memos);
+        console.log(`\nメモが新規作成されました😊`);
+      }else{
+        console.log(`\nメモの作成が中断されました`);
+      }
     });
   }
 
