@@ -3,10 +3,12 @@
 import readline from "node:readline";
 import enquirer from "enquirer";
 const { Select } = enquirer;
+import { MemoModel } from "./memoModel.js";
 
 export class MemoController {
   constructor(Repository) {
     this.repository = new Repository();
+    this.memoModel = new MemoModel();
     this.Memos = this.repository.load();
   }
 
@@ -14,7 +16,7 @@ export class MemoController {
     if (this.Memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
-    const memoTitles = this.Memos.map(memo => memo.title )
+    const memoTitles = this.memoModel.loadMemoTitles(this.Memos)
     console.log("\n[メモ一覧]");
     for (const memo of memoTitles) {
       console.log(memo);
@@ -25,18 +27,8 @@ export class MemoController {
     if (this.Memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
-    const prompt = new Select({
-      message: "本文を表示したいメモを選んでください😊\n",
-      choices: this.Memos,
-      result() {
-        return this.focused.content;
-      },
-      footer() {
-        return "\n十字キーを上下する事で全てのメモから選択できます";
-      },
-    });
     try {
-      const memoText = await prompt.run();
+      const memoText = await this.memoModel.selectMemoList(this.Memos);
       console.log(`\n[内容]\n${memoText}`);
     } catch (e) {
       console.error(e);
