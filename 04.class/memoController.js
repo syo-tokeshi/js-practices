@@ -40,10 +40,7 @@ export class MemoController {
   createMemo() {
     const readlineInterface = createReadlineInterface();
     const stdinlines = receiveStdin(readlineInterface);
-    saveStdin(
-      readlineInterface,
-      stdinlines
-    );
+    saveStdin(readlineInterface, stdinlines);
   }
 
   async deleteMemo() {
