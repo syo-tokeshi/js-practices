@@ -12,7 +12,7 @@ export class MemoController {
     if (this.memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
-    const memoTitles = this.memoModel.loadMemoTitles(this.memos)
+    const memoTitles = this.memoModel.loadMemoTitles(this.memos);
     console.log("\n[メモ一覧]");
     for (const memo of memoTitles) {
       console.log(memo);
@@ -34,7 +34,12 @@ export class MemoController {
   createMemo() {
     const readlineInterface = this.memoModel.createReadlineInterface();
     const stdinlines = this.memoModel.receiveStdin(readlineInterface);
-    this.memoModel.writeStdin(readlineInterface, stdinlines, this.memos, this.repository);
+    this.memoModel.writeStdin(
+      readlineInterface,
+      stdinlines,
+      this.memos,
+      this.repository
+    );
   }
 
   async deleteMemo() {
