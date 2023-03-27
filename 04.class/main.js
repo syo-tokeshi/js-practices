@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import minimist from "minimist";
 import { MemoController } from "./memoController.js";
 import { Repository } from "./repository.js";

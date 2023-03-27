@@ -2,13 +2,13 @@
 import enquirer from "enquirer";
 const { Select } = enquirer;
 import readline from "node:readline";
+import { Repository } from "./repository.js";
 
-export class MemoModel {
-  loadMemoTitles = (Memos) => {
+export const loadMemoTitles = (Memos) => {
     return Memos.map((memo) => memo.title);
   };
 
-  selectMemo = (Memos) => {
+export const selectMemo = (Memos) => {
     const prompt = new Select({
       message: "本文を表示したいメモを選んでください😊\n",
       choices: Memos,
@@ -22,7 +22,7 @@ export class MemoModel {
     return prompt.run();
   };
 
-  createReadlineInterface() {
+export const createReadlineInterface = () => {
     process.stdin.resume();
     process.stdin.setEncoding("utf8");
     const reader = readline.createInterface({
@@ -32,7 +32,7 @@ export class MemoModel {
     return reader;
   }
 
-  receiveStdin = (reader) => {
+export const receiveStdin = (reader) => {
     const lines = [];
     reader.on("line", (line) => {
       lines.push(line);
@@ -40,21 +40,22 @@ export class MemoModel {
     return lines;
   };
 
-  saveStdin = (readlineInterface, stdinlines, memos, repository) => {
+export const saveStdin = (readlineInterface, stdinlines) => {
     readlineInterface.on("close", () => {
       if (stdinlines.length !== 0) {
         const title = stdinlines.shift();
         const newMemo = { title: title, content: stdinlines.join("\n") };
+        const memos = Repository.load();
         memos.push(newMemo);
-        repository.write(memos);
+        Repository.save(memos);
         console.log(`\nメモが新規作成されました😊`);
       } else {
         console.log(`\nメモの作成が中断されました`);
       }
     });
-  };
+};
 
-  createDeletePrompt = (deepCopyMemos) => {
+export const createDeletePrompt = (deepCopyMemos) => {
     const prompt = new Select({
       message: "削除したいメモをお選び下さい😭",
       choices: deepCopyMemos,
@@ -67,5 +68,4 @@ export class MemoModel {
       },
     });
     return prompt;
-  };
-}
+};

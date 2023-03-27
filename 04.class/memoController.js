@@ -1,18 +1,24 @@
 #!/usr/bin/env node
-import { MemoModel } from "./memoModel.js";
+import {
+  loadMemoTitles,
+  selectMemo,
+  createReadlineInterface,
+  receiveStdin,
+  saveStdin,
+  createDeletePrompt,
+} from "./memoModel.js";
+import { Repository } from "./repository.js";
 
 export class MemoController {
   constructor(Repository) {
-    this.repository = new Repository();
-    this.memoModel = new MemoModel();
-    this.memos = this.repository.load();
+    this.memos = Repository.load();
   }
 
   allMemos() {
     if (this.memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
-    const memoTitles = this.memoModel.loadMemoTitles(this.memos);
+    const memoTitles = loadMemoTitles(this.memos);
     console.log("\n[メモ一覧]");
     for (const memo of memoTitles) {
       console.log(memo);
@@ -24,7 +30,7 @@ export class MemoController {
       return console.log(`メモは現在ございません。😭`);
     }
     try {
-      const memoText = await this.memoModel.selectMemo(this.memos);
+      const memoText = await selectMemo(this.memos);
       console.log(`\n[内容]\n${memoText}`);
     } catch (e) {
       console.error(e);
@@ -32,13 +38,11 @@ export class MemoController {
   }
 
   createMemo() {
-    const readlineInterface = this.memoModel.createReadlineInterface();
-    const stdinlines = this.memoModel.receiveStdin(readlineInterface);
-    this.memoModel.saveStdin(
+    const readlineInterface = createReadlineInterface();
+    const stdinlines = receiveStdin(readlineInterface);
+    saveStdin(
       readlineInterface,
-      stdinlines,
-      this.memos,
-      this.repository
+      stdinlines
     );
   }
 
@@ -48,14 +52,14 @@ export class MemoController {
       return console.log(`メモは現在ございません。😭`);
     }
     const deepCopyMemos = Memos.map((memo) => ({ ...memo }));
-    const deletePrompt = this.memoModel.createDeletePrompt(deepCopyMemos);
+    const deletePrompt = createDeletePrompt(deepCopyMemos);
     try {
       const deletedMemoIndex = await deletePrompt.run();
       console.log(
         `\n${Memos[deletedMemoIndex].title}のメモを削除致しました🙇‍`
       );
       Memos.splice(deletedMemoIndex, 1);
-      this.repository.write(Memos);
+      Repository.save(Memos);
     } catch (e) {
       console.error(e);
     }
