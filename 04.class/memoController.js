@@ -44,19 +44,19 @@ export class MemoController {
   }
 
   async deleteMemo() {
-    const Memos = this.memos;
-    if (Memos.length === 0) {
+    const memos = this.memos;
+    if (memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
-    const deepCopyMemos = Memos.map((memo) => ({ ...memo }));
+    const deepCopyMemos = memos.map((memo) => ({ ...memo }));
     const deletePrompt = createDeletePrompt(deepCopyMemos);
     try {
       const deletedMemoIndex = await deletePrompt.run();
       console.log(
-        `\n${Memos[deletedMemoIndex].title}のメモを削除致しました🙇‍`
+        `\n${memos[deletedMemoIndex].title}のメモを削除致しました🙇‍`
       );
-      Memos.splice(deletedMemoIndex, 1);
-      Repository.save(Memos);
+      memos.splice(deletedMemoIndex, 1);
+      Repository.save(memos);
     } catch (e) {
       console.error(e);
     }
