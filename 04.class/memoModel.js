@@ -40,8 +40,8 @@ export class MemoModel {
     return lines;
   };
 
-  writeStdin = (reader, stdinlines, memos, repository) => {
-    reader.on("close", () => {
+  saveStdin = (readlineInterface, stdinlines, memos, repository) => {
+    readlineInterface.on("close", () => {
       if (stdinlines.length !== 0) {
         const title = stdinlines.shift();
         const newMemo = { title: title, content: stdinlines.join("\n") };

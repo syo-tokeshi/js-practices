@@ -34,7 +34,7 @@ export class MemoController {
   createMemo() {
     const readlineInterface = this.memoModel.createReadlineInterface();
     const stdinlines = this.memoModel.receiveStdin(readlineInterface);
-    this.memoModel.writeStdin(
+    this.memoModel.saveStdin(
       readlineInterface,
       stdinlines,
       this.memos,
