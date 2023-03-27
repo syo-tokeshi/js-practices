@@ -4,14 +4,14 @@ const { Select } = enquirer;
 import readline from "node:readline";
 import { Repository } from "./repository.js";
 
-export const loadMemoTitles = (Memos) => {
-  return Memos.map((memo) => memo.title);
+export const loadMemoTitles = (memos) => {
+  return memos.map((memo) => memo.title);
 };
 
-export const selectMemo = (Memos) => {
+export const selectMemo = (memos) => {
   const prompt = new Select({
     message: "本文を表示したいメモを選んでください😊\n",
-    choices: Memos,
+    choices: memos,
     result() {
       return this.focused.content;
     },
