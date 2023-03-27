@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export class JsonFile {
+export class Repository {
   load() {
     const jsonFile = fs.readFileSync("memos.json", "utf8");
     const fileContent = JSON.parse(jsonFile);

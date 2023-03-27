@@ -1,24 +1,21 @@
 #!/usr/bin/env node
 
-import { JsonFile } from "./JsonFile.js";
+import { Repository } from "./Repository.js";
 import readline from "node:readline";
 import enquirer from "enquirer";
 const { Select } = enquirer;
 
 export class MemoController {
   constructor() {
-    this.jsonFile = new JsonFile();
-    this.Memos = this.jsonFile.load();
+    this.repository = new Repository();
+    this.Memos = this.repository.load();
   }
 
   allMemos() {
     if (this.Memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
-    const memoTitles = [];
-    for (const memo of this.Memos) {
-      memoTitles.push(memo.title);
-    }
+    const memoTitles = this.Memos.map(memo => memo.title )
     console.log("\n[メモ一覧]");
     for (const memo of memoTitles) {
       console.log(memo);
@@ -63,7 +60,7 @@ export class MemoController {
         const title = lines.shift();
         const newMemo = { title: title, content: lines.join("\n") };
         this.Memos.push(newMemo);
-        this.jsonFile.write(this.Memos);
+        this.repository.write(this.Memos);
         console.log(`\nメモが新規作成されました😊`);
       }else{
         console.log(`\nメモの作成が中断されました`);
@@ -95,7 +92,7 @@ export class MemoController {
         `\n${Memos[deletedMemoIndex].title}のメモを削除致しました🙇‍`
       );
       Memos.splice(deletedMemoIndex, 1);
-      this.jsonFile.write(Memos);
+      this.repository.write(Memos);
     } catch (e) {
       console.error(e);
     }
