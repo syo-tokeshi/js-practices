@@ -1,8 +1,4 @@
 #!/usr/bin/env node
-
-import readline from "node:readline";
-import enquirer from "enquirer";
-const { Select } = enquirer;
 import { MemoModel } from "./memoModel.js";
 
 export class MemoController {
@@ -43,24 +39,13 @@ export class MemoController {
 
   async deleteMemo() {
     const Memos = this.memos;
-    const deepCopyMemos = Memos.map((memo) => ({ ...memo }));
-
     if (Memos.length === 0) {
       return console.log(`メモは現在ございません。😭`);
     }
-    const prompt = new Select({
-      message: "削除したいメモをお選び下さい😭",
-      choices: deepCopyMemos,
-      result() {
-        const deletedMemoIndex = this.index.toString();
-        return deletedMemoIndex;
-      },
-      footer() {
-        return "\n十字キーを上下する事で全てのメモから選択できます";
-      },
-    });
+    const deepCopyMemos = Memos.map((memo) => ({ ...memo }));
+    const deletePrompt = this.memoModel.createDeletePrompt(deepCopyMemos);
     try {
-      const deletedMemoIndex = await prompt.run();
+      const deletedMemoIndex = await deletePrompt.run();
       console.log(
         `\n${Memos[deletedMemoIndex].title}のメモを削除致しました🙇‍`
       );
