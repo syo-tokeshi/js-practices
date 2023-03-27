@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
-import { Repository } from "./Repository.js";
 import readline from "node:readline";
 import enquirer from "enquirer";
 const { Select } = enquirer;
 
 export class MemoController {
-  constructor() {
+  constructor(Repository) {
     this.repository = new Repository();
     this.Memos = this.repository.load();
   }
