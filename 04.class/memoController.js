@@ -45,12 +45,12 @@ export class MemoController {
     const readlineInterface = this.memoModel.createReadlineInterface();
     const stdinlines = this.memoModel.receiveStdin(readlineInterface);
     readlineInterface.on("close", () => {
-    if (stdinlines.length !== 0) {
-      this.memoModel.saveStdin(readlineInterface, stdinlines);
-      console.log(`\nメモが新規作成されました😊`);
-    } else {
-      console.log(`\nメモの作成が中断されました`);
-    }
+      if (stdinlines.length !== 0) {
+        this.memoModel.saveStdin(readlineInterface, stdinlines);
+        console.log(`\nメモが新規作成されました😊`);
+      } else {
+        console.log(`\nメモの作成が中断されました`);
+      }
     });
   }
 
