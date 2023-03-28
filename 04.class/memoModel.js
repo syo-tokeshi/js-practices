@@ -5,14 +5,17 @@ export class MemoModel {
   constructor(repositoryFile) {
     this.repository = new Repository(repositoryFile);
   }
+
   loadMemos = () => {
     return this.repository.load();
   };
-  saveMemos = (memos) => {
-    return this.repository.save(memos);
-  };
+
   loadMemoTitles = (memos) => {
     return memos.map((memo) => memo.title);
+  };
+
+  saveMemos = (memos) => {
+    return this.repository.save(memos);
   };
 
   createReadlineInterface() {
