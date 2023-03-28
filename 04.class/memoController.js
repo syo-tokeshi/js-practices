@@ -9,9 +9,7 @@ export class MemoController {
   }
 
   allMemos() {
-    if (this.memos.length === 0) {
-      return console.log(`メモは現在ございません。😭`);
-    }
+    if (this.#memosEmpty()) return console.log(`メモは現在ございません。😭`);
     const memoTitles = this.memoModel.loadMemoTitles(this.memos);
     console.log("\n[メモ一覧]");
     for (const memo of memoTitles) {
@@ -20,9 +18,7 @@ export class MemoController {
   }
 
   async showMemo() {
-    if (this.memos.length === 0) {
-      return console.log(`メモは現在ございません。😭`);
-    }
+    if (this.#memosEmpty()) return console.log(`メモは現在ございません。😭`);
     const prompt = new Select({
       message: "本文を表示したいメモを選んでください😊\n",
       choices: this.memos,
@@ -45,20 +41,15 @@ export class MemoController {
     const readlineInterface = this.memoModel.createReadlineInterface();
     const stdinlines = this.memoModel.receiveStdin(readlineInterface);
     readlineInterface.on("close", () => {
-      if (stdinlines.length !== 0) {
-        this.memoModel.saveStdin(readlineInterface, stdinlines);
-        console.log(`\nメモが新規作成されました😊`);
-      } else {
-        console.log(`\nメモの作成が中断されました`);
-      }
+      if (this.#stdinlinesEmpty(stdinlines)) return console.log(`\nメモの作成が中断されました`);
+      this.memoModel.saveStdin(readlineInterface, stdinlines);
+      console.log(`\nメモが新規作成されました😊`);
     });
   }
 
   async deleteMemo() {
+    if (this.#memosEmpty()) return console.log(`メモは現在ございません。😭`);
     const memos = this.memos;
-    if (memos.length === 0) {
-      return console.log(`メモは現在ございません。😭`);
-    }
     const deepCopyMemos = memos.map((memo) => ({ ...memo }));
     const prompt = new Select({
       message: "削除したいメモをお選び下さい😭",
@@ -81,5 +72,13 @@ export class MemoController {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  #memosEmpty() {
+    return this.memos.length === 0;
+  }
+
+  #stdinlinesEmpty(stdinlines) {
+    return stdinlines.length === 0;
   }
 }

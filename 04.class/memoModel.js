@@ -18,7 +18,7 @@ export class MemoModel {
     return this.repository.save(memos);
   };
 
-  createReadlineInterface() {
+  createReadlineInterface = () => {
     process.stdin.resume();
     process.stdin.setEncoding("utf8");
     const reader = readline.createInterface({
@@ -26,7 +26,7 @@ export class MemoModel {
       output: process.stdout,
     });
     return reader;
-  }
+  };
 
   receiveStdin = (reader) => {
     const lines = [];
