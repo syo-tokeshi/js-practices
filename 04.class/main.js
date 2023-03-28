@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 import minimist from "minimist";
 import { MemoController } from "./memoController.js";
-import { Repository } from "./repository.js";
-
+const repositoryFile = "memos.json";
 const main = () => {
   const argv = minimist(process.argv.slice(2));
-  const memoController = new MemoController(Repository);
+  const memoController = new MemoController(repositoryFile);
   if (argv.l) {
     memoController.allMemos();
   } else if (argv.r) {
