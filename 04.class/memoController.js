@@ -5,12 +5,12 @@ const { Select } = enquirer;
 export class MemoController {
   constructor(repositoryFile) {
     this.memoModel = new MemoModel(repositoryFile);
-    this.memos = this.memoModel.loadMemos();
   }
 
   allMemos() {
     if (this.#isMemosEmpty()) return console.log(`メモは現在ございません。😭`);
-    const memoTitles = this.memoModel.loadMemoTitles(this.memos);
+    const memos = this.memoModel.loadMemos();
+    const memoTitles = this.memoModel.loadMemoTitles(memos);
     console.log("\n[メモ一覧]");
     for (const memo of memoTitles) {
       console.log(memo);
@@ -21,7 +21,7 @@ export class MemoController {
     if (this.#isMemosEmpty()) return console.log(`メモは現在ございません。😭`);
     const prompt = new Select({
       message: "本文を表示したいメモを選んでください😊\n",
-      choices: this.memos,
+      choices: this.memoModel.loadMemos(),
       result() {
         return this.focused.content;
       },
@@ -51,7 +51,7 @@ export class MemoController {
 
   async deleteMemo() {
     if (this.#isMemosEmpty()) return console.log(`メモは現在ございません。😭`);
-    const memos = this.memos;
+    const memos = this.memoModel.loadMemos();
     const deepCopyMemos = memos.map((memo) => ({ ...memo }));
     const prompt = new Select({
       message: "削除したいメモをお選び下さい😭",
@@ -77,7 +77,7 @@ export class MemoController {
   }
 
   #isMemosEmpty() {
-    return this.memos.length === 0;
+    return this.memoModel.loadMemos().length === 0;
   }
 
   #isStdinlinesEmpty(stdinlines) {

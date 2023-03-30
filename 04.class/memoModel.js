@@ -38,7 +38,7 @@ export class MemoModel {
 
   saveStdin = (readlineInterface, stdinlines) => {
     const title = stdinlines.shift();
-    const newMemo = { title: title, content: stdinlines.join("\n") };
+    const newMemo = { title, content: stdinlines.join("\n") };
     const memos = this.repository.load();
     memos.push(newMemo);
     this.repository.save(memos);
