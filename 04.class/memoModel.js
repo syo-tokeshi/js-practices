@@ -15,9 +15,9 @@ export class MemoModel {
 
   isEmpty = () => {
     return this.load().length === 0;
-  }
+  };
 
-  saveMemos = (memos) => {
+  save = (memos) => {
     return this.repository.save(memos);
   };
 
