@@ -1,4 +1,3 @@
-import readline from "node:readline";
 import { Repository } from "./repository.js";
 
 export class MemoModel {
@@ -20,24 +19,6 @@ export class MemoModel {
 
   saveMemos = (memos) => {
     return this.repository.save(memos);
-  };
-
-  createReadlineInterface = () => {
-    process.stdin.resume();
-    process.stdin.setEncoding("utf8");
-    const reader = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-    return reader;
-  };
-
-  receiveStdin = (reader) => {
-    const lines = [];
-    reader.on("line", (line) => {
-      lines.push(line);
-    });
-    return lines;
   };
 
   saveStdin = (readlineInterface, stdinlines) => {

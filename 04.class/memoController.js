@@ -1,4 +1,5 @@
 import { MemoModel } from "./memoModel.js";
+import readline from "node:readline";
 import enquirer from "enquirer";
 const { Select } = enquirer;
 
@@ -38,8 +39,8 @@ export class MemoController {
   }
 
   createMemo() {
-    const readlineInterface = this.memoModel.createReadlineInterface();
-    const stdinlines = this.memoModel.receiveStdin(readlineInterface);
+    const readlineInterface = this.#createReadlineInterface();
+    const stdinlines = this.#receiveStdin(readlineInterface);
     readlineInterface.on("close", () => {
       if (this.#isStdinlinesEmpty(stdinlines)) {
         return console.log(`\nメモの作成が中断されました`);
@@ -75,6 +76,24 @@ export class MemoController {
       console.error(e);
     }
   }
+
+  #createReadlineInterface = () => {
+    process.stdin.resume();
+    process.stdin.setEncoding("utf8");
+    const reader = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    return reader;
+  };
+
+  #receiveStdin = (reader) => {
+    const lines = [];
+    reader.on("line", (line) => {
+      lines.push(line);
+    });
+    return lines;
+  };
 
   #isStdinlinesEmpty(stdinlines) {
     return stdinlines.length === 0;
