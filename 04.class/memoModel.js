@@ -6,13 +6,17 @@ export class MemoModel {
     this.repository = new Repository(repositoryFile);
   }
 
-  loadMemos = () => {
+  load = () => {
     return this.repository.load();
   };
 
-  loadMemoTitles = (memos) => {
+  loadTitles = (memos) => {
     return memos.map((memo) => memo.title);
   };
+
+  isEmpty = () => {
+    return this.load().length === 0;
+  }
 
   saveMemos = (memos) => {
     return this.repository.save(memos);
@@ -43,8 +47,4 @@ export class MemoModel {
     memos.push(newMemo);
     this.repository.save(memos);
   };
-
-  isEmpty = () => {
-    return this.loadMemos().length === 0;
-  }
 }
