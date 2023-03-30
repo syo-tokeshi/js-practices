@@ -43,4 +43,8 @@ export class MemoModel {
     memos.push(newMemo);
     this.repository.save(memos);
   };
+
+  isEmpty = () => {
+    return this.loadMemos().length === 0;
+  }
 }

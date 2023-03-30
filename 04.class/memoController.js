@@ -8,7 +8,7 @@ export class MemoController {
   }
 
   allMemos() {
-    if (this.#isMemosEmpty()) return console.log(`メモは現在ございません。😭`);
+    if (this.memoModel.isEmpty()) return console.log(`メモは現在ございません。😭`);
     const memos = this.memoModel.loadMemos();
     const memoTitles = this.memoModel.loadMemoTitles(memos);
     console.log("\n[メモ一覧]");
@@ -18,7 +18,7 @@ export class MemoController {
   }
 
   async showMemo() {
-    if (this.#isMemosEmpty()) return console.log(`メモは現在ございません。😭`);
+    if (this.memoModel.isEmpty()) return console.log(`メモは現在ございません。😭`);
     const prompt = new Select({
       message: "本文を表示したいメモを選んでください😊\n",
       choices: this.memoModel.loadMemos(),
@@ -50,7 +50,7 @@ export class MemoController {
   }
 
   async deleteMemo() {
-    if (this.#isMemosEmpty()) return console.log(`メモは現在ございません。😭`);
+    if (this.memoModel.isEmpty()) return console.log(`メモは現在ございません。😭`);
     const memos = this.memoModel.loadMemos();
     const deepCopyMemos = memos.map((memo) => ({ ...memo }));
     const prompt = new Select({
@@ -74,10 +74,6 @@ export class MemoController {
     } catch (e) {
       console.error(e);
     }
-  }
-
-  #isMemosEmpty() {
-    return this.memoModel.loadMemos().length === 0;
   }
 
   #isStdinlinesEmpty(stdinlines) {
